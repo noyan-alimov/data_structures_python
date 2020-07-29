@@ -89,6 +89,13 @@ def test_get_success(test_case):
     else:
         print('Test Failed')
 
+def test_get_none(test_case):
+    answer = our_cache.get(test_case)
+    if answer == -1:
+        print('Test Success')
+    else:
+        print('Test Failed')
+
 def test_get_fail(test_case):
     our_cache.set(2, 2)
     our_cache.set(3, 3)
@@ -103,6 +110,7 @@ def test_get_fail(test_case):
     else:
         print('Test Failed')
 
-test_set(1, 1) # expect to successfully set to cache
-test_get_success(1) # should return 1, get value from cache
-test_get_fail(3) # testing the linked list to handle the recent and most unrecent items logic, should return -1
+test_set(1, 1)  # expect to successfully set to cache
+test_get_success(1)  # should return 1, get value from cache
+test_get_none(None)  # should return -1, edge case 1
+test_get_fail(3)  # testing the linked list to handle the recent and most unrecent items logic, should return -1, edge case 2
