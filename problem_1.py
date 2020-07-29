@@ -44,8 +44,6 @@ class LinkedList():
         return value
 
 
-
-
 class LRU_Cache(object):
 
     def __init__(self, capacity):
@@ -76,17 +74,35 @@ class LRU_Cache(object):
 
 our_cache = LRU_Cache(5)
 
-our_cache.set(1, 1)
-our_cache.set(2, 2)
-our_cache.set(3, 3)
-our_cache.set(4, 4)
 
+def test_set(test_case, test_case2):
+    our_cache.set(test_case, test_case2)
+    if test_case in our_cache.cache and test_case2 in our_cache.cache:
+        print('Test Success')
+    else:
+        print('Test Failed')
 
-our_cache.get(1)       # returns 1
-our_cache.get(2)       # returns 2
-our_cache.get(9)      # returns -1 because 9 is not present in the cache
+def test_get_success(test_case):
+    answer = our_cache.get(test_case)
+    if answer == 1:
+        print('Test Success')
+    else:
+        print('Test Failed')
 
-our_cache.set(5, 5) 
-our_cache.set(6, 6)
+def test_get_fail(test_case):
+    our_cache.set(2, 2)
+    our_cache.set(3, 3)
+    our_cache.set(4, 4)
+    our_cache.get(1)       
+    our_cache.get(2)       
+    our_cache.set(5, 5) 
+    our_cache.set(6, 6)
+    answer = our_cache.get(test_case)
+    if answer == -1:
+        print('Test Success')
+    else:
+        print('Test Failed')
 
-print(our_cache.get(3))      # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
+test_set(1, 1) # expect to successfully set to cache
+test_get_success(1) # should return 1, get value from cache
+test_get_fail(3) # testing the linked list to handle the recent and most unrecent items logic, should return -1
