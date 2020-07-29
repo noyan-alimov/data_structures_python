@@ -1,13 +1,41 @@
+class Node(object):
+    
+    def __init__(self, value = None):
+        self.value = value
+        self.next = None
+        self.previous = None
+
+class DoubleLinkedList(object):
+
+    def __init__(self):
+        self.head = None
+
+    def prepend(self, value):
+        new_node = Node(value)
+
+        if self.head is None:
+            self.head = new_node
+            return
+        
+        new_node.next = self.head
+        self.head.previous = new_node
+        self.head = new_node
+
+
 class LRU_Cache(object):
 
     def __init__(self, capacity):
         # Initialize class variables
         self.capacity = capacity
-        self.cache = [None for _ in range(self.capacity)]
+        self.cache = {}
+        self.double_linked_list = DoubleLinkedList()
 
     def get(self, key):
         # Retrieve item from provided key. Return -1 if nonexistent. 
-        pass
+        if key in self.cache:
+
+            return self.cache[key]
+        return -1
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item. 
