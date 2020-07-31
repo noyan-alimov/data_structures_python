@@ -8,15 +8,15 @@ class Node:
         self.previous = None
         self.left_child = None
         self.right_child = None
+        self.bit = ''
+
 
 class PriorityQueue:
     def __init__(self):
         self.head = None
         self.tail = None
 
-    def add(self, character, frequency):  
-        new_node = Node(character, frequency)
-
+    def add(self, new_node):  
         if self.head is None:
             self.head = new_node
             self.tail = self.head
@@ -52,34 +52,94 @@ class PriorityQueue:
     def __repr__(self):
         node = self.head
         while node:
-            print(node.frequency)
+            print(node.character, node.frequency)
             node = node.next
 
-        
+
+def create_huffman_tree(p_queue):
+    if p_queue.head == p_queue.tail:
+        return p_queue
+
+    node1 = p_queue.remove_head()
+    node2 = p_queue.remove_head()
+    new_node = Node(None, node1.frequency + node2.frequency)
+    new_node.left_child = node1
+    new_node.right_child = node2
+    p_queue.add(new_node)
+    output = create_huffman_tree(p_queue)
+    return output
 
 
-queue = PriorityQueue()
-queue.add('A', 3)
-queue.add('B', 2)
-queue.add('C', 7)
-queue.add('D', 5)
-queue.__repr__()
+def assign_bits_to_nodes(p_queue):
+    head = p_queue.head
+    node = p_queue.head
+    while node:
+        if node != head:
+            node.bit = '0'
+        if node.right_child:
+            node.right_child.bit = '1'
+        node = node.left_child
+    
+    node = p_queue.head
+    while node:
+        if node != head:
+            node.bit = '1'
+        if node.left_child:
+            node.left_child.bit = '0'
+        node = node.right_child
+    
+    return p_queue
 
 
+def generate_unique_binary_code_for_each_char(tree):
+    node = tree.head
+    huffman_codes = {}
+    return return_generate_code(node, huffman_codes)
 
 
-# def huffman_encoding(data):
-#     chars = {}
-#     for char in data:
-#         chars[char] = chars.get(char, 0) + 1
-#     return chars
+def return_generate_code(node, huffman_codes):
+    if node.left_child is None and node.right_child is None:
+        huffman_codes[node.character] = node.bit
+    
+    if node.left_child:
+        node.left_child.bit = node.bit + node.left_child.bit
+        return_generate_code(node.left_child, huffman_codes)
 
-# def huffman_decoding(data, tree):
-#     pass
+    if node.right_child:
+        node.right_child.bit = node.bit + node.right_child.bit
+        return_generate_code(node.right_child, huffman_codes)
 
-# print(huffman_encoding('AAABBCCD'))
+    return huffman_codes
 
 
+def huffman_encoding(data):
+    chars = {}
+    for char in data:
+        chars[char] = chars.get(char, 0) + 1
+    
+    p_queue = PriorityQueue()
+    for character, frequency in chars.items():
+        new_node = Node(character, frequency)
+        p_queue.add(new_node)
+    
+    huffman_tree = create_huffman_tree(p_queue)
+    tree_with_bits = assign_bits_to_nodes(huffman_tree)
+    huffman_codes = generate_unique_binary_code_for_each_char(tree_with_bits)
+
+    encoded_data = ''
+    for char in data:
+        for char2, code in huffman_codes.items():
+            if char == char2:
+                encoded_data += code
+
+    return encoded_data
+
+
+1010101010101000100100111111111111111000000010101010101
+1010101010101000100100111111111111111000000010101010101
+    
+result = huffman_encoding('AAAAAAABBBCCCCCCCDDEEEEEE')
+print(result)
 
 
 
