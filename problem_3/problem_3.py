@@ -94,24 +94,26 @@ def generate_unique_binary_code_for_each_char(tree):
 
 
 def return_generate_code(node, huffman_codes):
-    if node.left_child is None and node.right_child is None:
-        huffman_codes[node.character] = node.bit
-    
-    if node.left_child:
-        node.left_child.bit = node.bit + node.left_child.bit
-        return_generate_code(node.left_child, huffman_codes)
+    if node:
+        if node.left_child is None and node.right_child is None:
+            huffman_codes[node.character] = node.bit
+        
+        if node.left_child:
+            node.left_child.bit = node.bit + node.left_child.bit
+            return_generate_code(node.left_child, huffman_codes)
 
-    if node.right_child:
-        node.right_child.bit = node.bit + node.right_child.bit
-        return_generate_code(node.right_child, huffman_codes)
+        if node.right_child:
+            node.right_child.bit = node.bit + node.right_child.bit
+            return_generate_code(node.right_child, huffman_codes)
 
     return huffman_codes
 
 
 def huffman_encoding(data):
     chars = {}
-    for char in data:
-        chars[char] = chars.get(char, 0) + 1
+    if data:
+        for char in data:
+            chars[char] = chars.get(char, 0) + 1
     
     p_queue = PriorityQueue()
     for character, frequency in chars.items():
@@ -123,10 +125,11 @@ def huffman_encoding(data):
     huffman_codes = generate_unique_binary_code_for_each_char(tree_with_bits)
 
     encoded_data = ''
-    for char in data:
-        for char2, code in huffman_codes.items():
-            if char == char2:
-                encoded_data += code
+    if data:
+        for char in data:
+            for char2, code in huffman_codes.items():
+                if char == char2:
+                    encoded_data += code
 
     return encoded_data, tree_with_bits
 
@@ -154,19 +157,20 @@ def huffman_decoding(data, tree):
 
 
 if __name__ == "__main__":
-    codes = {}
+    testcase = ['AAAABBBBCCCDDDE', 'The bird is the word', None, ''] # Expect first two tests to pass and last two to fail with ValueError
+    for case in testcase:
 
-    a_great_sentence = "The bird is the word"
+        a_great_sentence = case
 
-    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print ("The content of the data is: {}\n".format(a_great_sentence))
+        print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+        print ("The content of the data is: {}\n".format(a_great_sentence))
 
-    encoded_data, tree = huffman_encoding(a_great_sentence)
+        encoded_data, tree = huffman_encoding(a_great_sentence)
 
-    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    print ("The content of the encoded data is: {}\n".format(encoded_data))
+        print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+        print ("The content of the encoded data is: {}\n".format(encoded_data))
 
-    decoded_data = huffman_decoding(encoded_data, tree)
+        decoded_data = huffman_decoding(encoded_data, tree)
 
-    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    print ("The content of the decoded data is: {}\n".format(decoded_data))
+        print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+        print ("The content of the decoded data is: {}\n".format(decoded_data))
