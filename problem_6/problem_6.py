@@ -119,3 +119,9 @@ linked_list_6 = LinkedList()
 
 print (union(linked_list_5,linked_list_6)) # expect an empty linked list
 print (intersection(linked_list_5,linked_list_6)) # expect an empty linked list
+
+
+# Test case 4
+
+print (union(None, None)) # expect to show an Attribute Error
+print (intersection(None, None)) # expect to show an Attribute Error
