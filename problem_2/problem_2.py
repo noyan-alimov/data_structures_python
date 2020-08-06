@@ -35,4 +35,5 @@ def test_function_2(suffix, path):
 
 test_function_1('.c', f'{os.path.abspath(os.getcwd())}/testdir')  # expect to return a non-empty list 
 test_function_2('', '')  # expect to return an empty list
-test_function_2('jfhdalksjdfh', 'sjdfhsakajfhk')  # expect to return an empty lest
+test_function_2('jfhdalksjdfh', 'sjdfhsakajfhk')  # expect to return an empty list
+test_function_2(None, None)  # expect a Type Error because of invalid input parameters

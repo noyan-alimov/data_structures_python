@@ -1,2 +1,2 @@
-- The union function runs at O(n) time. It uses two separate while loops.
-- The intersection function runs at O(n) time. Uses 2 while loops and 1 for loop with an if statement which makes it run in O(log n) time.
+- The union function runs at O(n) time. It uses two separate while loops. Runs at O(1) space.
+- The intersection function runs at O(n) time. Uses 2 while loops and 1 for loop with an if statement which makes it run in O(log n) time. Runs at O(1) space.

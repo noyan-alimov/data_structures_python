@@ -1,1 +1,2 @@
-The worst case scenario in this function is O(n^2). If there are a lot of groups and users inside groups this would be the worst case scenario. The function uses recursion inside a for loop. 
+The function runs at O(n) time, uses a for loop. Function runs at O(n) space, creates variables every time due to recursion.
+The Group class uses lists to store it's children groups and users. The function loops through users list, if the user is not there, it loops through child groups to check if the user is there. It continues this operation and goes further to check sub child groups until it finds the user or checks every children groups.

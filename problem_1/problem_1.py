@@ -74,7 +74,6 @@ class LRU_Cache(object):
 
 our_cache = LRU_Cache(5)
 
-
 def test_set(test_case, test_case2):
     our_cache.set(test_case, test_case2)
     if test_case in our_cache.cache and test_case2 in our_cache.cache:
@@ -110,7 +109,18 @@ def test_get_fail(test_case):
     else:
         print('Test Failed')
 
+
+our_cache2 = LRU_Cache(None)
+
+def test_set2(test_case, test_case2):
+    our_cache2.set(test_case, test_case2)
+    if test_case in our_cache2.cache and test_case2 in our_cache2.cache:
+        print('Test Failed')
+    else:
+        print('Test Success')
+
 test_set(1, 1)  # expect to successfully set to cache
 test_get_success(1)  # should return 1, get value from cache
 test_get_none(None)  # should return -1, edge case 1
 test_get_fail(3)  # testing the linked list to handle the recent and most unrecent items logic, should return -1, edge case 2
+test_set2(1, 2)  # expect setting cache to fail because the capacity is None
